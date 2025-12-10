@@ -43,7 +43,9 @@
         programs.git = {
           settings = {
             credential = {
-              helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
+              helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+              credentialStore = "cache";
+              "provider" = "generic";
             };
           };
         };
