@@ -41,9 +41,11 @@
           pkgs.bitwarden-cli
         ];
         programs.git = {
-          # settings.credential = {
-          #   helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
-          # };
+          settings = {
+            credential = {
+              helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
+            };
+          };
         };
       };
     };
