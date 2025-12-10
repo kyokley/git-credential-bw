@@ -41,10 +41,9 @@
           pkgs.bitwarden-cli
         ];
         programs.git = {
-          enable = lib.mkDefault true;
-          settings.credential = {
-            helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
-          };
+          # settings.credential = {
+          #   helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
+          # };
         };
       };
     };
