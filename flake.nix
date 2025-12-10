@@ -43,7 +43,7 @@
         programs.git = {
           enable = lib.mkDefault true;
           credential = {
-            helper = "${self.git-credential-bw}/bin/git-credential-bw";
+            helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
           };
         };
       };
