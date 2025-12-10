@@ -37,7 +37,7 @@
       };
 
       config = lib.mkIf config.git-credential-bw.enable {
-        home.packages = [
+        home-manager.home.packages = [
           pkgs.bitwarden-cli
         ];
         programs.git = {
