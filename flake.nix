@@ -9,8 +9,12 @@
     ...
   }: let
     pkgs = import nixpkgs {system = "x86_64-linux";};
+    lastModifiedDate = self.lastModifiedDate or self.lastModified or "19700101";
+    version = builtins.substring 0 8 lastModifiedDate;
   in {
     packages.x86_64-linux.git-credential-bw = pkgs.stdenv.mkDerivation {
+      pname = "git-credential-bw";
+      inherit version;
       src = ./.;
 
       installPhase = ''
@@ -41,9 +45,10 @@
           pkgs.bitwarden-cli
         ];
         programs.git = {
-          enable = lib.mkDefault true;
-          credential = {
-            helper = "${self.git-credential-bw}/bin/git-credential-bw";
+          settings = {
+            credential = {
+              helper = "${self.packages.x86_64-linux.git-credential-bw}/bin/git-credential-bw";
+            };
           };
         };
       };
