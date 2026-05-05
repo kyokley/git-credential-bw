@@ -17,11 +17,19 @@
       inherit version;
       src = ./.;
 
+      nativeBuildInputs = [
+      pkgs.makeWrapper
+      ];
+      buildInputs = [
+        pkgs.bitwarden-cli
+      ];
       installPhase = ''
         mkdir -p $out/bin
 
         cp ./git-credential-bw $out/bin/git-credential-bw
         chmod a+x $out/bin/git-credential-bw
+        wrapProgram $out/bin/git-credential-bw \
+          --set GIT_CREDENTIAL_BW_CMD "${pkgs.bitwarden-cli}/bin/bw"
       '';
     };
 
@@ -41,9 +49,6 @@
       };
 
       config = lib.mkIf config.git-credential-bw.enable {
-        home.packages = [
-          pkgs.bitwarden-cli
-        ];
         programs.git = {
           settings = {
             credential = {
