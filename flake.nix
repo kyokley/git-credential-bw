@@ -16,25 +16,34 @@
         lastModifiedDate = self.lastModifiedDate or self.lastModified or "19700101";
         version = builtins.substring 0 8 lastModifiedDate;
       in {
-        packages.git-credential-bw = pkgs.stdenv.mkDerivation {
-          pname = "git-credential-bw";
-          inherit version;
-          src = ./.;
+        packages = {
+          git-credential-bw = pkgs.stdenv.mkDerivation {
+            pname = "git-credential-bw";
+            inherit version;
+            src = ./.;
 
-          nativeBuildInputs = [
-            pkgs.makeWrapper
-          ];
-          buildInputs = [
-            pkgs.bitwarden-cli
-          ];
-          installPhase = ''
-            mkdir -p $out/bin
+            nativeBuildInputs = [
+              pkgs.makeWrapper
+            ];
+            buildInputs = [
+              pkgs.bitwarden-cli
+            ];
+            installPhase = ''
+              mkdir -p $out/bin
 
-            cp ./git-credential-bw $out/bin/git-credential-bw
-            chmod a+x $out/bin/git-credential-bw
-            wrapProgram $out/bin/git-credential-bw \
-              --set GIT_CREDENTIAL_BW_CMD "${pkgs.bitwarden-cli}/bin/bw"
-          '';
+              cp ./git-credential-bw $out/bin/git-credential-bw
+              chmod a+x $out/bin/git-credential-bw
+              wrapProgram $out/bin/git-credential-bw \
+                --set GIT_CREDENTIAL_BW_CMD "${pkgs.bitwarden-cli}/bin/bw"
+            '';
+          };
+          default = self.packages.${pkgs.stdenv.hostPlatform.system}.git-credential-bw;
+        };
+
+        devShells.default = pkgs.mkShell {
+          packages = [
+            self.packages.${pkgs.stdenv.hostPlatform.system}.default
+          ];
         };
       };
 
