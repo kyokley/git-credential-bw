@@ -12,7 +12,7 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
-      perSystem = {pkgs, lib, ...}: let
+      perSystem = {pkgs, ...}: let
         lastModifiedDate = self.lastModifiedDate or self.lastModified or "19700101";
         version = builtins.substring 0 8 lastModifiedDate;
         bitwarden-cli = pkgs.bitwarden-cli.overrideAttrs (oldAttrs: rec {
@@ -65,6 +65,7 @@
         devShells.default = pkgs.mkShell {
           packages = [
             self.packages.${pkgs.stdenv.hostPlatform.system}.default
+            bitwarden-cli
           ];
         };
       };
