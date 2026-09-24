@@ -42,7 +42,7 @@
           git-credential-bw = pkgs.stdenv.mkDerivation {
             pname = "git-credential-bw";
             inherit version;
-            src = ./.;
+            src = ./git-credential-bw;
 
             nativeBuildInputs = [
               pkgs.makeWrapper
@@ -53,7 +53,7 @@
             installPhase = ''
               mkdir -p $out/bin
 
-              cp ./git-credential-bw $out/bin/git-credential-bw
+              cp "$src" $out/bin/git-credential-bw
               chmod a+x $out/bin/git-credential-bw
               wrapProgram $out/bin/git-credential-bw \
                 --set GIT_CREDENTIAL_BW_CMD "${pkgs.bitwarden-cli}/bin/bw"
