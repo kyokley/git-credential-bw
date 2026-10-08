@@ -43,6 +43,7 @@
             pname = "git-credential-bw";
             inherit version;
             src = ./git-credential-bw;
+            dontUnpack = true;
 
             nativeBuildInputs = [
               pkgs.makeWrapper
